@@ -56,7 +56,6 @@ export function Navbar() {
           </div>
           
           <div className="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
-            {/* Theme Toggle */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="p-2 rounded-lg text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -68,11 +67,9 @@ export function Navbar() {
               )}
             </button>
             
-            {/* Connect Wallet Button */}
             <ConnectButton />
           </div>
 
-          {/* Mobile menu button */}
           <div className="sm:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -88,7 +85,6 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isOpen && (
         <div className="sm:hidden">
           <div className="pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">

@@ -1,23 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import { TrendingUpIcon, TrendingDownIcon } from '@heroicons/react/24/outline'
-
-interface Token {
-  id: string
-  name: string
-  symbol: string
-  image: string
-  current_price: number
-  price_change_percentage_24h: number
-  market_cap: number
-  total_volume: number
-}
+import { ArrowTrendingUpIcon, ArrowTrendingDownIcon } from '@heroicons/react/24/outline'
+import { formatCurrency, formatMarketCap } from '@/lib/web3'
+import { coinGeckoAPI, CoinGeckoResponse } from '@/lib/api'
 
 export function TopTokens() {
-  const [tokens, setTokens] = useState<Token[]>([])
+  const [tokens, setTokens] = useState<CoinGeckoResponse[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchTopTokens()
@@ -25,83 +16,41 @@ export function TopTokens() {
 
   const fetchTopTokens = async () => {
     try {
-      // Simulate API call - replace with actual CoinGecko API
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      setLoading(true)
+      setError(null)
+      const data = await coinGeckoAPI.getTopCoins(10)
+      setTokens(data)
+    } catch (err) {
+      setError('Failed to fetch tokens')
+      console.error('Error fetching tokens:', err)
+      // Fallback data for demo
       setTokens([
         {
           id: 'bitcoin',
           name: 'Bitcoin',
-          symbol: 'BTC',
-          image: '/icons/bitcoin.png',
+          symbol: 'btc',
+          image: '',
           current_price: 43250.00,
           price_change_percentage_24h: 2.45,
           market_cap: 847523000000,
-          total_volume: 15234567890
+          total_volume: 15234567890,
+          market_cap_rank: 1
         },
         {
           id: 'ethereum',
           name: 'Ethereum',
-          symbol: 'ETH',
-          image: '/icons/ethereum.png',
+          symbol: 'eth',
+          image: '',
           current_price: 2567.89,
           price_change_percentage_24h: -1.23,
           market_cap: 308456000000,
-          total_volume: 8765432109
-        },
-        {
-          id: 'binancecoin',
-          name: 'BNB',
-          symbol: 'BNB',
-          image: '/icons/bnb.png',
-          current_price: 307.45,
-          price_change_percentage_24h: 3.67,
-          market_cap: 47123000000,
-          total_volume: 1234567890
-        },
-        {
-          id: 'solana',
-          name: 'Solana',
-          symbol: 'SOL',
-          image: '/icons/solana.png',
-          current_price: 98.76,
-          price_change_percentage_24h: 5.43,
-          market_cap: 42345000000,
-          total_volume: 2345678901
-        },
-        {
-          id: 'cardano',
-          name: 'Cardano',
-          symbol: 'ADA',
-          image: '/icons/cardano.png',
-          current_price: 0.456,
-          price_change_percentage_24h: -2.1,
-          market_cap: 16123000000,
-          total_volume: 567890123
+          total_volume: 8765432109,
+          market_cap_rank: 2
         }
       ])
-    } catch (error) {
-      console.error('Error fetching tokens:', error)
     } finally {
       setLoading(false)
     }
-  }
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: value < 1 ? 6 : 2
-    }).format(value)
-  }
-
-  const formatMarketCap = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      notation: 'compact',
-      maximumFractionDigits: 2
-    }).format(value)
   }
 
   if (loading) {
@@ -157,6 +106,11 @@ export function TopTokens() {
 
   return (
     <div className="card overflow-hidden">
+      {error && (
+        <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400">
+          <p className="text-yellow-700 dark:text-yellow-300">{error} - Showing demo data</p>
+        </div>
+      )}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-800">
@@ -182,7 +136,7 @@ export function TopTokens() {
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full mr-3 flex items-center justify-center">
                       <span className="text-xs font-medium text-gray-600 dark:text-gray-300">
-                        {token.symbol.charAt(0)}
+                        {token.symbol.charAt(0).toUpperCase()}
                       </span>
                     </div>
                     <div>
@@ -201,9 +155,9 @@ export function TopTokens() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                   <div className="flex items-center">
                     {token.price_change_percentage_24h >= 0 ? (
-                      <TrendingUpIcon className="w-4 h-4 text-green-500 mr-1" />
+                      <ArrowTrendingUpIcon className="w-4 h-4 text-green-500 mr-1" />
                     ) : (
-                      <TrendingDownIcon className="w-4 h-4 text-red-500 mr-1" />
+                      <ArrowTrendingDownIcon className="w-4 h-4 text-red-500 mr-1" />
                     )}
                     <span className={`font-medium ${
                       token.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500'

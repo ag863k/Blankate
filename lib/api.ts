@@ -36,7 +36,10 @@ export class CoinGeckoAPI {
       headers['x-cg-demo-api-key'] = this.apiKey
     }
 
-    const response = await fetch(url, { headers })
+    const response = await fetch(url, { 
+      headers,
+      next: { revalidate: 60 }
+    })
     
     if (!response.ok) {
       throw new Error(`CoinGecko API error: ${response.status}`)
@@ -66,4 +69,6 @@ export class CoinGeckoAPI {
   }
 }
 
-export const coinGeckoAPI = new CoinGeckoAPI(process.env.NEXT_PUBLIC_COINGECKO_API_KEY)
+export const coinGeckoAPI = new CoinGeckoAPI(
+  typeof window !== 'undefined' ? undefined : process.env.NEXT_PUBLIC_COINGECKO_API_KEY
+)

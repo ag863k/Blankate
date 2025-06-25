@@ -1,53 +1,32 @@
 'use client'
 
-import { WagmiConfig, createConfig, configureChains } from 'wagmi'
-import { mainnet, polygon, arbitrum } from 'wagmi/chains'
-import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { publicProvider } from 'wagmi/providers/public'
-import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
+import { WagmiProvider, createConfig, http } from 'wagmi'
+import { mainnet, polygon, arbitrum, base } from 'wagmi/chains'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { RainbowKitProvider, getDefaultConfig } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
-import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
+import { ReactNode, useState } from 'react'
 
-// Configure chains
-const { chains, publicClient } = configureChains(
-  [mainnet, polygon, arbitrum],
-  [
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! }),
-    publicProvider()
-  ]
-)
-
-// Configure wallets
-const { connectors } = getDefaultWallets({
+const config = getDefaultConfig({
   appName: 'Blankate',
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID!,
-  chains
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID || 'fallback-project-id',
+  chains: [mainnet, polygon, arbitrum, base],
+  ssr: true,
 })
 
-// Create wagmi config
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient
-})
+export function Providers({ children }: { children: ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient())
 
-export function Providers({ 
-  children,
-  session 
-}: { 
-  children: React.ReactNode
-  session?: any
-}) {
   return (
-    <SessionProvider session={session}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <WagmiConfig config={wagmiConfig}>
-          <RainbowKitProvider chains={chains}>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>
             {children}
           </RainbowKitProvider>
-        </WagmiConfig>
-      </ThemeProvider>
-    </SessionProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </ThemeProvider>
   )
 }

@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: blankate
+    env: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_PROJECT_ID
+        sync: false
+      - key: NEXT_PUBLIC_COINGECKO_API_KEY
+        sync: false
+    autoDeploy: true
+    branches:
+      - main
+    rootDir: .
+    numInstances: 1
+    scaling:
+      minInstances: 1
+      maxInstances: 3
+      targetMemoryPercent: 60
+      targetCPUPercent: 60
