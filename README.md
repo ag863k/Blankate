@@ -158,19 +158,83 @@ blankate/
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Frontend Deployment (Netlify)
 
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy with zero configuration
+1. **Connect Repository**
+   - Connect your GitHub repository to Netlify
+   - Set build command: `npm run build:netlify`
+   - Set publish directory: `out`
 
-### Other Platforms
+2. **Environment Variables**
+   ```env
+   NEXT_PUBLIC_PROJECT_ID=your_walletconnect_project_id
+   NEXT_PUBLIC_COINGECKO_API_KEY=your_coingecko_api_key
+   NETLIFY=true
+   ```
 
-The app can be deployed to any platform that supports Next.js:
-- Netlify
-- Railway
-- AWS Amplify
-- DigitalOcean App Platform
+3. **Deploy**
+   - Push to main branch for automatic deployment
+   - Or deploy manually via Netlify CLI
+
+### Backend Deployment (Render)
+
+1. **Connect Repository**
+   - Connect your GitHub repository to Render
+   - Use the `render.yaml` configuration file
+
+2. **Environment Variables**
+   ```env
+   NODE_ENV=production
+   NEXT_PUBLIC_PROJECT_ID=your_walletconnect_project_id
+   NEXT_PUBLIC_COINGECKO_API_KEY=your_coingecko_api_key
+   ```
+
+3. **Deploy**
+   - Automatic deployment on push to main branch
+
+### Docker Deployment
+
+```bash
+# Build the image
+docker build -t blankate .
+
+# Run the container
+docker run -p 3000:3000 \
+  -e NEXT_PUBLIC_PROJECT_ID=your_project_id \
+  -e NEXT_PUBLIC_COINGECKO_API_KEY=your_api_key \
+  blankate
+```
+
+## 🔧 Development Scripts
+
+```bash
+# Development
+npm run dev              # Start development server
+npm run type-check       # Type checking
+npm run lint             # Lint code
+npm run format           # Format code
+
+# Building
+npm run build            # Production build
+npm run build:netlify    # Build for Netlify (static export)
+npm run build:analyze    # Build with bundle analyzer
+
+# Utilities
+npm run clean            # Clean build artifacts
+npm run docker:build     # Build Docker image
+npm run docker:run       # Run Docker container
+```
+
+## 📊 Performance Optimizations
+
+- **Next.js 14** with App Router for optimal performance
+- **SWC** for fast compilation and minification
+- **Tree shaking** to eliminate unused code
+- **Image optimization** with Next.js Image component
+- **Code splitting** for lazy loading
+- **Caching strategies** for API responses
+- **Gzip compression** enabled
+- **Security headers** configured
 
 ## 🤝 Contributing
 

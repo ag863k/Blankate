@@ -3,16 +3,24 @@
   "version": "1.0.0",
   "private": true,
   "description": "Modern crypto & Web3 dashboard with real-time data and portfolio tracking",
+  "keywords": ["crypto", "web3", "blockchain", "defi", "nft", "ethereum", "dashboard"],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:netlify": "NETLIFY=true next build",
+    "build:netlify": "cross-env NETLIFY=true next build",
+    "build:analyze": "cross-env ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
-    "analyze": "cross-env ANALYZE=true next build",
-    "clean": "rimraf .next out dist build"
+    "type-check:watch": "tsc --noEmit --watch",
+    "test": "echo \"Tests not implemented yet\" && exit 0",
+    "clean": "rimraf .next out dist build .turbo",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "docker:build": "docker build -t blankate .",
+    "docker:run": "docker run -p 3000:3000 blankate",
+    "prepare": "husky install || true"
   },
   "dependencies": {
     "@headlessui/react": "^2.0.4",
@@ -39,7 +47,9 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.3",
+    "husky": "^9.0.11",
     "postcss": "^8.4.38",
+    "prettier": "^3.3.2",
     "rimraf": "^5.0.10",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5"
@@ -47,5 +57,17 @@
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

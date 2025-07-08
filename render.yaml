@@ -1,25 +1,41 @@
 services:
   - type: web
-    name: blankate
-    env: node
+    name: blankate-web
+    runtime: node
     plan: starter
-    buildCommand: npm ci && npm run build
+    region: oregon
+    buildCommand: npm ci --prefer-offline --no-audit && npm run build
     startCommand: npm start
-    healthCheckPath: /
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: 1
       - key: NEXT_PUBLIC_PROJECT_ID
         sync: false
       - key: NEXT_PUBLIC_COINGECKO_API_KEY
         sync: false
     autoDeploy: true
-    branches:
-      - main
+    branch: main
     rootDir: .
-    numInstances: 1
+    
+    # Scaling configuration
     scaling:
       minInstances: 1
       maxInstances: 3
-      targetMemoryPercent: 60
-      targetCPUPercent: 60
+      targetMemoryPercent: 70
+      targetCPUPercent: 70
+      
+    # Custom domains (add your domain here)
+    # domains:
+    #   - blankate.com
+    #   - www.blankate.com
+
+# Optional: Database service (uncomment if needed)
+# databases:
+#   - name: blankate-db
+#     databaseName: blankate
+#     user: blankate
+#     plan: starter
+#     region: oregon
