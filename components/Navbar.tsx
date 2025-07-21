@@ -4,10 +4,10 @@ import { useState } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
-import { 
-  Bars3Icon, 
-  XMarkIcon, 
-  SunIcon, 
+import {
+  Bars3Icon,
+  XMarkIcon,
+  SunIcon,
   MoonIcon,
   ChartBarIcon,
   WalletIcon,
@@ -54,7 +54,7 @@ export function Navbar() {
               ))}
             </div>
           </div>
-          
+
           <div className="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -66,7 +66,7 @@ export function Navbar() {
                 <MoonIcon className="w-5 h-5" />
               )}
             </button>
-            
+
             <ConnectButton />
           </div>
 

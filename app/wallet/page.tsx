@@ -18,7 +18,7 @@ export default function WalletPage() {
       <div className="card p-8">
         <div className="text-center">
           <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-            <span className="text-white text-2xl">💳</span>
+            <span className="text-white text-2xl" aria-hidden="true">💳</span>
           </div>
           <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
             Connect Your Wallet
@@ -26,7 +26,11 @@ export default function WalletPage() {
           <p className="text-gray-600 dark:text-gray-300 mb-6">
             Connect your crypto wallet to view balances, transaction history, and manage your assets.
           </p>
-          <button className="btn-primary">
+          <button
+            className="btn-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            aria-label="Connect Wallet"
+            type="button"
+          >
             Connect Wallet
           </button>
         </div>

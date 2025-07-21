@@ -59,13 +59,15 @@ export function RecentTransactions() {
   const getTransactionIcon = (type: string) => {
     switch (type) {
       case 'send':
-        return <ArrowUpIcon className="w-4 h-4 text-red-500" />
+        return <ArrowUpIcon className="w-4 h-4 text-red-500" aria-label="Send" />
       case 'receive':
-        return <ArrowDownIcon className="w-4 h-4 text-green-500" />
+        return <ArrowDownIcon className="w-4 h-4 text-green-500" aria-label="Receive" />
       case 'swap':
-        return <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
-          <span className="text-xs text-white">⇄</span>
-        </div>
+        return (
+          <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center" aria-label="Swap">
+            <span className="text-xs text-white">⇄</span>
+          </div>
+        )
       default:
         return null
     }
@@ -86,17 +88,17 @@ export function RecentTransactions() {
 
   return (
     <div className="card p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Recent Transactions
         </h3>
         {isConnected && (
-          <button className="text-blue-600 dark:text-blue-400 text-sm hover:underline">
+          <button className="text-blue-600 dark:text-blue-400 text-sm hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded">
             View all
           </button>
         )}
       </div>
-      
+
       {!isConnected ? (
         <div className="text-center py-8">
           <p className="text-gray-500 dark:text-gray-400">
@@ -104,9 +106,12 @@ export function RecentTransactions() {
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {transactions.map((tx) => (
-            <div key={tx.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+            <div
+              key={tx.id}
+              className="flex items-center justify-between p-3 md:p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg"
+            >
               <div className="flex items-center space-x-3">
                 {getTransactionIcon(tx.type)}
                 <div>
@@ -118,19 +123,19 @@ export function RecentTransactions() {
                       {tx.status}
                     </span>
                   </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {tx.type === 'send' && tx.to && `To: ${formatAddress(tx.to)}`}
-                    {tx.type === 'receive' && tx.from && `From: ${formatAddress(tx.from)}`}
-                    {tx.type === 'swap' && 'Token swap'}
+                  <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
+                    {tx.type === 'send' && tx.to && <>To: {formatAddress(tx.to)}</>}
+                    {tx.type === 'receive' && tx.from && <>From: {formatAddress(tx.from)}</>}
+                    {tx.type === 'swap' && <>Token swap</>}
                   </div>
                 </div>
               </div>
-              
-              <div className="text-right">
+
+              <div className="text-right min-w-[120px]">
                 <div className="font-medium text-gray-900 dark:text-white">
                   {tx.type === 'send' ? '-' : tx.type === 'receive' ? '+' : ''}{tx.amount} {tx.token}
                 </div>
-                <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400 flex items-center justify-end">
                   {tx.timestamp.toLocaleTimeString()}
                   <a
                     href={`https://etherscan.io/tx/${tx.hash}`}
@@ -138,6 +143,7 @@ export function RecentTransactions() {
                     rel="noopener noreferrer"
                     className="ml-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
                     title="View on Etherscan"
+                    aria-label="View on Etherscan"
                   >
                     <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                   </a>

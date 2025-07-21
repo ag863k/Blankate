@@ -44,18 +44,23 @@
   body {
     @apply bg-background text-foreground;
   }
+  button:focus-visible, .btn-primary:focus-visible, .btn-secondary:focus-visible {
+    @apply ring-2 ring-blue-400 ring-offset-2 outline-none;
+  }
 }
 
 @layer components {
   .btn-primary {
     @apply bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400;
   }
-  
+
   .btn-secondary {
     @apply bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 px-4 py-2 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400;
   }
-  
+
   .card {
-    @apply bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm;
+    @apply bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-md dark:shadow-lg;
   }
 }

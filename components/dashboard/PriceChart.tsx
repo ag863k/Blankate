@@ -35,9 +35,10 @@ export function PriceChart() {
             <button
               key={tf.value}
               onClick={() => setTimeframe(tf.value)}
-              className={`px-3 py-1 text-sm rounded-md transition-colors ${
+              aria-pressed={timeframe === tf.value}
+              className={`px-3 py-1 text-sm rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
                 timeframe === tf.value
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-blue-600 text-white shadow font-semibold'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}
             >
@@ -68,7 +69,7 @@ export function PriceChart() {
                 borderRadius: '8px',
                 color: '#F9FAFB'
               }}
-              formatter={(value: any) => [`$${value.toLocaleString()}`, 'Price']}
+              formatter={(value: any, name: string) => [`$${Number(value).toLocaleString()}`, name]}
             />
             <Line 
               type="monotone" 
@@ -83,4 +84,5 @@ export function PriceChart() {
       </div>
     </div>
   )
+}
 }

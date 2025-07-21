@@ -28,7 +28,7 @@ export function PortfolioOverview() {
       // For now, we'll use mock data with the actual ETH balance
       const ethPrice = 2567.89 // Mock ETH price
       const ethValue = parseFloat(balance.formatted) * ethPrice
-      
+
       setPortfolio({
         totalValue: ethValue,
         change24h: ethValue * 0.0245, // Mock 2.45% gain
@@ -47,80 +47,80 @@ export function PortfolioOverview() {
   }, [isConnected, balance])
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <div className="card p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              Total Portfolio Value
-            </p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-              {formatCurrency(portfolio.totalValue)}
-            </p>
-            <div className="flex items-center mt-2">
-              {portfolio.changePercentage >= 0 ? (
-                <ArrowTrendingUpIcon className="w-4 h-4 text-green-500 mr-1" />
-              ) : (
-                <ArrowTrendingDownIcon className="w-4 h-4 text-red-500 mr-1" />
-              )}
-              <span className={`text-sm font-medium ${
-                portfolio.changePercentage >= 0 ? 'text-green-500' : 'text-red-500'
-              }`}>
-                {portfolio.changePercentage >= 0 ? '+' : ''}{formatCurrency(portfolio.change24h)} ({portfolio.changePercentage.toFixed(2)}%)
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="card p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              24h Change
-            </p>
-            <p className={`text-2xl font-bold ${
-              portfolio.changePercentage >= 0 ? 'text-green-500' : 'text-red-500'
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+      <div className="card p-5 md:p-6 flex flex-col justify-between h-full">
+        <div>
+          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+            Total Portfolio Value
+          </p>
+          <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            {formatCurrency(portfolio.totalValue)}
+          </p>
+          <div className="flex items-center space-x-1">
+            {portfolio.changePercentage >= 0 ? (
+              <ArrowTrendingUpIcon className="w-4 h-4 text-green-500" />
+            ) : (
+              <ArrowTrendingDownIcon className="w-4 h-4 text-red-500" />
+            )}
+            <span className={`text-sm ${
+              portfolio.changePercentage >= 0 ? 'text-green-600' : 'text-red-500'
             }`}>
-              {portfolio.changePercentage >= 0 ? '+' : ''}{formatCurrency(portfolio.change24h)}
-            </p>
-            <p className={`text-sm ${
-              portfolio.changePercentage >= 0 ? 'text-green-500' : 'text-red-500'
-            }`}>
-              {portfolio.changePercentage >= 0 ? '+' : ''}{portfolio.changePercentage.toFixed(2)}%
-            </p>
+              {portfolio.changePercentage >= 0 ? '+' : ''}{formatCurrency(portfolio.change24h)} ({portfolio.changePercentage.toFixed(2)}%)
+            </span>
           </div>
         </div>
       </div>
 
-      <div className="card p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              Active Positions
-            </p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-              {portfolio.positions}
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Tokens held
-            </p>
-          </div>
+      <div className="card p-5 md:p-6 flex flex-col justify-between h-full">
+        <div>
+          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+            24h Change
+          </p>
+          <p className={`text-xl md:text-2xl font-bold ${
+            portfolio.changePercentage >= 0 ? 'text-green-600' : 'text-red-500'
+          } mb-1`}>
+            {portfolio.changePercentage >= 0 ? '+' : ''}{formatCurrency(portfolio.change24h)}
+          </p>
+          <span className={`text-xs ${
+            portfolio.changePercentage >= 0 ? 'text-green-600' : 'text-red-500'
+          }`}>
+            {portfolio.changePercentage >= 0 ? '+' : ''}{portfolio.changePercentage.toFixed(2)}%
+          </span>
         </div>
       </div>
 
-      <div className="card p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              Wallet Status
-            </p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-              {isConnected ? 'Connected' : 'Disconnected'}
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {isConnected ? address?.slice(0, 6) + '...' + address?.slice(-4) : 'Connect wallet'}
-            </p>
+      <div className="card p-5 md:p-6 flex flex-col justify-between h-full">
+        <div>
+          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+            Active Positions
+          </p>
+          <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1">
+            {portfolio.positions}
+          </p>
+          <span className="text-xs text-gray-400 dark:text-gray-500">
+            Tokens held
+          </span>
+        </div>
+      </div>
+
+      <div className="card p-5 md:p-6 flex flex-col justify-between h-full">
+        <div>
+          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+            Wallet Status
+          </p>
+          <p className={`text-xl md:text-2xl font-bold ${
+            isConnected ? 'text-green-600' : 'text-gray-900 dark:text-white'
+          } mb-1`}>
+            {isConnected ? 'Connected' : 'Disconnected'}
+          </p>
+          <span className="text-xs text-gray-400 dark:text-gray-500 break-all">
+            {isConnected ? address?.slice(0, 6) + '...' + address?.slice(-4) : 'Connect wallet'}
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
           </div>
         </div>
       </div>

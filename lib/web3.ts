@@ -18,7 +18,7 @@ export const formatWalletAddress = (address: string): string => {
 export const formatTokenAmount = (amount: number, decimals: number = 18): string => {
   const divisor = Math.pow(10, decimals)
   const value = amount / divisor
-  
+
   if (value < 0.01) return '<0.01'
   if (value < 1) return value.toFixed(4)
   if (value < 1000) return value.toFixed(2)

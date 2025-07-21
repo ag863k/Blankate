@@ -32,7 +32,8 @@ export default function TokensPage() {
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
           Top Cryptocurrencies
         </h2>
-        <TopTokens />
+        {/* Pass showContract prop to display contract column */}
+        <TopTokens showContract />
       </div>
     </div>
   )

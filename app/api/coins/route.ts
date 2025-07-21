@@ -4,10 +4,11 @@ import { coinGeckoAPI } from '@/lib/api'
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const limit = parseInt(searchParams.get('limit') || '10')
-    
+    let limit = parseInt(searchParams.get('limit') || '10')
+    if (isNaN(limit) || limit < 1 || limit > 100) limit = 10
+
     const coins = await coinGeckoAPI.getTopCoins(limit)
-    
+
     return NextResponse.json({
       success: true,
       data: coins,
@@ -16,8 +17,8 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('API Error:', error)
     return NextResponse.json(
-      { 
-        success: false, 
+      {
+        success: false,
         error: 'Failed to fetch coin data',
         timestamp: Date.now()
       },

@@ -19,14 +19,14 @@ services:
     autoDeploy: true
     branch: main
     rootDir: .
-    
+
     # Scaling configuration
     scaling:
       minInstances: 1
       maxInstances: 3
       targetMemoryPercent: 70
       targetCPUPercent: 70
-      
+
     # Custom domains (add your domain here)
     # domains:
     #   - blankate.com

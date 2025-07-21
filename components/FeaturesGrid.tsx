@@ -1,12 +1,12 @@
 'use client'
 
-import { 
-  WalletIcon, 
-  ChartBarIcon, 
-  CurrencyDollarIcon, 
+import {
+  WalletIcon,
+  ChartBarIcon,
+  CurrencyDollarIcon,
   PhotoIcon,
   ShieldCheckIcon,
-  GlobeAltIcon 
+  GlobeAltIcon
 } from '@heroicons/react/24/outline'
 
 const features = [

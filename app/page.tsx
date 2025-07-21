@@ -8,7 +8,7 @@ export default function HomePage() {
     <div className="space-y-12">
       {/* Hero Section */}
       <Hero />
-      
+
       {/* Market Overview */}
       <section className="space-y-6">
         <div className="text-center">

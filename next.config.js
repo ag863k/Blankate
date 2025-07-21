@@ -35,12 +35,12 @@ const nextConfig = {
   },
   output: process.env.NETLIFY === 'true' ? 'export' : 'standalone',
   trailingSlash: process.env.NETLIFY === 'true',
-  
+
   // Performance optimizations
   poweredByHeader: false,
   compress: true,
   generateEtags: true,
-  
+
   // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
@@ -48,7 +48,7 @@ const nextConfig = {
     } : false,
     reactRemoveProperties: process.env.NODE_ENV === 'production',
   },
-  
+
   // Security headers
   async headers() {
     return [
@@ -75,7 +75,7 @@ const nextConfig = {
       },
     ]
   },
-  
+
   // Redirects for better SEO
   async redirects() {
     return [
@@ -86,7 +86,7 @@ const nextConfig = {
       },
     ]
   },
-  
+
   // Environment variables
   env: {
     CUSTOM_BUILD_TIME: new Date().toISOString(),
